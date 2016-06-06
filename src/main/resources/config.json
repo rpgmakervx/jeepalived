@@ -1,0 +1,11 @@
+{
+  "rec_server":{
+    "wait_ping_second":8,
+    "max_unrec_ping_times":3
+  },
+  "send_server":{
+    "wait_pong_second":8,
+    "max_unrec_pong_times":3,
+    "reconnect_second":10
+  }
+}

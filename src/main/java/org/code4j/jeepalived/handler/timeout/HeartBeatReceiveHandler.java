@@ -37,10 +37,10 @@ public class HeartBeatReceiveHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        System.out.println("触发事件");
         if (evt instanceof IdleStateEvent) {
             String timestamp = sdf.format(new Date());
             IdleStateEvent e = (IdleStateEvent) evt;
-            System.out.println("触发事件");
             if (e.state() == IdleState.READER_IDLE) {
                 if (unRecPingTimes < Configuration.MAX_UNREC_PING_TIMES){
                     logger.debug("第" + unRecPingTimes + "次读空闲");

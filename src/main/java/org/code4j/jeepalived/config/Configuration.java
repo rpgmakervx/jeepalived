@@ -7,9 +7,9 @@ package org.code4j.jeepalived.config;
  */
 public class Configuration {
 
-    public static final int READ_SECOND = 10;
+    public static final int READ_SECOND = 5;
     public static final int WRITE_SECOND = 5;
-    public static final int READ_WRITE_SECOND = 15;
+    public static final int READ_WRITE_SECOND = 10;
 
     public static final int WAIT_PING_SECOND = 8;
     public static final int MAX_UNREC_PING_TIMES = 3;

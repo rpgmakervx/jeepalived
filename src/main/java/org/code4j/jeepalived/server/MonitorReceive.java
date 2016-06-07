@@ -6,13 +6,14 @@ package org.code4j.jeepalived.server;/**
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.code4j.jeepalived.handler.ServerChildHandler;
-
-import java.net.InetSocketAddress;
+import org.code4j.jeepalived.config.Config;
+import org.code4j.jeepalived.config.Init;
+import org.code4j.jeepalived.handler.ReceiveChildHandler;
 
 /**
  * Description : server
@@ -20,27 +21,28 @@ import java.net.InetSocketAddress;
  * 上午8:14
  */
 
-public class MonitorServer {
+public class MonitorReceive {
 
-    public void startup(int port){
+    public void startup(){
         System.out.println("正在启动服务。。。");
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         ServerBootstrap b = new ServerBootstrap();
-        ChannelFuture f = null;
+        ChannelFuture future = null;
         try {
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
-                    .childHandler(new ServerChildHandler())
-                    .option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
-            f = b.bind(port).sync();
+                    .childHandler(new ReceiveChildHandler())
+                    .option(ChannelOption.SO_BACKLOG, 128)
+                    .childOption(ChannelOption.TCP_NODELAY, true);
+            future = b.bind(Init.RECEIVE_PORT).sync();
             System.out.println("服务已启动");
-            f.channel().closeFuture().sync();
+            future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }finally {
+            future.addListener(ChannelFutureListener.CLOSE);
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
-
     }
 }

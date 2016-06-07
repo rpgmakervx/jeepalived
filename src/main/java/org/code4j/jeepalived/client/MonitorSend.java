@@ -1,0 +1,71 @@
+package org.code4j.jeepalived.client;
+
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.*;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioSocketChannel;
+import org.apache.log4j.Logger;
+import org.code4j.jeepalived.config.Config;
+import org.code4j.jeepalived.config.Init;
+import org.code4j.jeepalived.handler.SendChildHandler;
+
+import java.net.InetSocketAddress;
+
+/**
+ * Description :
+ * Created by code4j on 2016/6/7 0007
+ * 01:05
+ */
+public class MonitorSend {
+
+    private Logger logger = Logger.getLogger(MonitorSend.class);
+
+    private ChannelFuture future = null;
+    //发送端要发给接收端的 域名和端口
+    private InetSocketAddress address;
+    private boolean isAlive;
+
+    private EventLoopGroup group = null;
+    private Bootstrap bootstrap = null;
+
+    public MonitorSend() {
+        address = new InetSocketAddress(Init.PRIMARY_HOST,Init.RECEIVE_PORT);
+    }
+
+    public void connect() throws Exception{
+        logger.debug("客户端发起链接");
+        group = new NioEventLoopGroup();
+        bootstrap = new Bootstrap();
+        bootstrap.group(group);								//group 组
+        bootstrap.channel(NioSocketChannel.class);			//channel 通道
+        bootstrap.option(ChannelOption.TCP_NODELAY, true);	//option 选项
+        bootstrap.handler(new SendChildHandler());		//handler 处理
+        //发起异步链接
+        future = bootstrap.connect(address.getHostName(), address.getPort()).sync();
+//            listen(f.channel());
+        future.channel().writeAndFlush(Init.PING);
+        isAlive = future.channel().isActive()||future.channel().isOpen();
+        //等待客户端链路关闭
+        System.out.println("客户端完成了链接");
+    }
+
+    public Channel channel(){
+        return future.channel();
+    }
+
+    public boolean isAlive(){
+        return this.isAlive;
+    }
+    public void listen(){
+        System.out.println("客户端监听中");
+        try {
+            future.channel().closeFuture().sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            logger.debug("listen 重连失败>_<");
+        }finally {
+            future.addListener(ChannelFutureListener.CLOSE);
+            group.shutdownGracefully();
+        }
+    }
+}

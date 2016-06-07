@@ -1,11 +1,18 @@
 {
-  "rec_server":{
-    "wait_ping_second":8,
-    "max_unrec_ping_times":3
-  },
-  "send_server":{
-    "wait_pong_second":8,
-    "max_unrec_pong_times":3,
-    "reconnect_second":10
-  }
+  "primary_host":"127.0.0.1",
+  "receive_port":9524,
+
+  "read_second":5,
+  "write_second":4,
+  "read_write_second":10,
+
+  "wait_ping_second":8,
+  "max_unrec_ping_times":3,
+
+  "wait_pong_second":8,
+  "max_unrec_pong_times":3,
+  "reconnect_second":10,
+
+  "set_primary_ip":"/root/chipaddr.sh /root/ipfile",
+  "set_origin_ip":"/root/chipaddr.sh /root/ipfile_bak"
 }

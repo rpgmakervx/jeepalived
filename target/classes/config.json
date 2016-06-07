@@ -1,11 +1,15 @@
-{
-  "rec_server":{
-    "wait_ping_second":8,
-    "max_unrec_ping_times":3
-  },
-  "send_server":{
-    "wait_pong_second":8,
-    "max_unrec_pong_times":3,
-    "reconnect_second":10
-  }
+{ /*节点属性配置*/
+  "primary_host":"127.0.0.1",
+  "receive_port":9524,
+  /*读写间隔*/
+  "read_second":5,
+  "write_second":4,
+  "read_write_second":10,
+  /*接收端参数*/
+  "wait_ping_second":8,
+  "max_unrec_ping_times":3,
+  /*发送端参数*/
+  "wait_pong_second":8,
+  "max_unrec_pong_times":3,
+  "reconnect_second":10
 }

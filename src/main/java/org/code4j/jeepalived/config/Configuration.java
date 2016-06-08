@@ -2,10 +2,7 @@ package org.code4j.jeepalived.config;
 
 import com.alibaba.fastjson.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * Description :
@@ -17,17 +14,26 @@ class Configuration {
     private JSONObject params;
     private static Configuration configuration;
 
-    public static Configuration getConfiguration(){
-        synchronized (Configuration.class){
-            if (configuration == null){
-                configuration = new Configuration();
+//    public static Configuration getConfiguration(String configpath){
+//        synchronized (Configuration.class){
+//            if (configuration == null){
+//                configuration = new Configuration(configpath);
+//            }
+//        }
+//        return configuration;
+//    }
+    public Configuration(String configpath){
+        InputStream is = null;
+        if (configpath == null||configpath.isEmpty()){
+            configpath = "/config.json";
+            is = Configuration.class.getResourceAsStream(configpath);
+        }else{
+            try {
+                is = new FileInputStream(configpath);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
         }
-        return configuration;
-    }
-    private Configuration(){
-        InputStream is = Configuration.class.getResourceAsStream("/config.json");
-        System.out.println(is);
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuffer sb = new StringBuffer();
         String str = "";

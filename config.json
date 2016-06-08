@@ -1,5 +1,5 @@
 {
-  "primary_host":"192.168.48.95",
+  "primary_host":"127.0.0.1",
   "receive_port":9524,
 
   "read_second":5,

@@ -64,8 +64,12 @@ public class MonitorSend {
             e.printStackTrace();
             logger.debug("listen 重连失败>_<");
         }finally {
-            future.addListener(ChannelFutureListener.CLOSE);
-            group.shutdownGracefully();
+            closeChannel();
         }
+    }
+
+    public void closeChannel(){
+        future.addListener(ChannelFutureListener.CLOSE);
+        group.shutdownGracefully();
     }
 }

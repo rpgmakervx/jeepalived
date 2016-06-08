@@ -7,7 +7,16 @@ package org.code4j.jeepalived.config;
  */
 public class Config {
 
-    private final static Configuration configuration = Configuration.getConfiguration();
+    private static Configuration configuration ;
+
+
+    public Config(String configpath){
+        configuration = new Configuration(configpath);
+    }
+//    public Config(String configpath){
+//        configuration = Configuration.getConfiguration(configpath);
+//    }
+
     public static final String SERVER_PORT = "server_port";
     public static final String RECEIVE_PORT = "receive_port";
     public static final String PRIMARY_HOST = "primary_host";

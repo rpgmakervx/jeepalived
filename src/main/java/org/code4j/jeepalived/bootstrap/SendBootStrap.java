@@ -1,7 +1,9 @@
 package org.code4j.jeepalived.bootstrap;
 
+import org.apache.log4j.Logger;
 import org.code4j.jeepalived.client.MonitorSend;
 import org.code4j.jeepalived.config.Config;
+import org.code4j.jeepalived.run.ReceiveMain;
 import org.code4j.jeepalived.server.MonitorReceive;
 
 /**
@@ -10,8 +12,10 @@ import org.code4j.jeepalived.server.MonitorReceive;
  * 13:38
  */
 public class SendBootStrap {
+    private Logger logger = Logger.getLogger(SendBootStrap.class);
 
     public void startup(String param){
+        logger.debug("配置文件路径："+param);
         new Config(param);
         MonitorSend send = new MonitorSend();
         try {

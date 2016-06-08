@@ -14,7 +14,6 @@ public class SendMain {
 //        MonitorClient monitor = new MonitorClient();
 //        monitor.connect("127.0.0.1", 6000);
 //        monitor.listen();
-        System.out.println("配置文件路径："+args[0]);
         SendBootStrap bootStrap = new SendBootStrap();
         bootStrap.startup(args[0]);
     }

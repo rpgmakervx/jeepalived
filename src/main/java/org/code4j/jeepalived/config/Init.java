@@ -13,6 +13,8 @@ public class Init {
     public static final int WRITE_SECOND = Config.getIntValue(Config.WRITE_SECOND);
     public static final int READ_WRITE_SECOND = Config.getIntValue(Config.READ_WRITE_SECOND);
 
+    public static final int SEND_TO = Config.getIntValue(Config.SEND_TO);
+
     public static final int WAIT_PING_SECOND = Config.getIntValue(Config.WAIT_PING_SECOND);
     public static final int WAIT_PONG_SECOND =  Config.getIntValue(Config.WAIT_PONG_SECOND);
     public static final int MAX_UNREC_PING_TIMES = Config.getIntValue(Config.MAX_UNREC_PING_TIMES);
@@ -20,6 +22,8 @@ public class Init {
     public static final int RECONNECT_SECOND = Config.getIntValue(Config.RECONNECT_SECOND);
 
     public static final int RECEIVE_PORT = Config.getIntValue(Config.RECEIVE_PORT);
+    public static final int SEND_TO_PORT = Config.getIntValue(Config.SEND_TO_PORT);
+    public static final String LOCAL_HOST = Config.getStrValue(Config.LOCAL_HOST);
     public static final String PRIMARY_HOST = Config.getStrValue(Config.PRIMARY_HOST);
 
     public static final String SET_PRIMARY_IP = Config.getStrValue(Config.SET_PRIMARY_IP);

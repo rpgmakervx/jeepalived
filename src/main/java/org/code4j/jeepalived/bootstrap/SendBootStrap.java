@@ -15,11 +15,13 @@ public class SendBootStrap {
     private Logger logger = Logger.getLogger(SendBootStrap.class);
 
     public void startup(String param){
-        logger.debug("配置文件路径："+param);
+        logger.debug("configuration file path :"+param);
         new Config(param);
         MonitorSend send = new MonitorSend();
         try {
             send.connect();
+//            ReceiveBootStrap bootStrap1 = new ReceiveBootStrap();
+//            bootStrap1.startup(param);
             send.listen();
         } catch (Exception e) {
             e.printStackTrace();

@@ -11,6 +11,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.apache.log4j.Logger;
 import org.code4j.jeepalived.config.Config;
 import org.code4j.jeepalived.config.Init;
 import org.code4j.jeepalived.handler.ReceiveChildHandler;
@@ -26,6 +27,7 @@ import java.net.InetSocketAddress;
 
 public class MonitorReceive {
 
+    private Logger logger = Logger.getLogger(MonitorReceive.class);
     private ChannelFuture future;
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
@@ -34,14 +36,14 @@ public class MonitorReceive {
         bossGroup = new NioEventLoopGroup();
         workerGroup = new NioEventLoopGroup();
         bootstrap = new ServerBootstrap();
-        System.out.println("正在启动服务。。。");
+        logger.debug("jeepalived receiver is starting...");
         try {
             bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                     .childHandler(new ReceiveChildHandler())
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.TCP_NODELAY, true);
             future = bootstrap.bind(Init.RECEIVE_PORT).sync();
-            System.out.println("服务已启动.  "+ InetAddress.getLocalHost());
+            logger.debug("jeepalived receiver is started successfully !!");
             future.channel().closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();

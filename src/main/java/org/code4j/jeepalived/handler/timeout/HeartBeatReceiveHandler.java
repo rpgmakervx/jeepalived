@@ -7,6 +7,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.log4j.Logger;
 import org.code4j.jeepalived.config.Config;
 import org.code4j.jeepalived.config.Init;
+import org.code4j.jeepalived.config.Type;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,7 +24,6 @@ import java.util.Date;
 public class HeartBeatReceiveHandler extends ChannelInboundHandlerAdapter {
     private Logger logger = Logger.getLogger(HeartBeatReceiveHandler.class);
 
-
     //未读心跳记录
     private int unRecPingTimes = 1;
 
@@ -31,7 +31,10 @@ public class HeartBeatReceiveHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         String ping = (String) msg;
-        logger.debug(ctx.channel().remoteAddress()+" says : "+ping);
+        logger.debug(ctx.channel().remoteAddress()+" says : "+ping+sdf.format(new Date()));
+        if (Type.DIE.equals(ping)){
+            System.exit(0);
+        }
         clearRecord();
         logger.debug("接收端回应起一次pong");
         ctx.channel().writeAndFlush(Init.PONG);

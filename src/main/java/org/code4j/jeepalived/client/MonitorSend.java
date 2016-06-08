@@ -7,7 +7,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import org.apache.log4j.Logger;
 import org.code4j.jeepalived.config.Config;
 import org.code4j.jeepalived.config.Init;
+import org.code4j.jeepalived.config.Type;
 import org.code4j.jeepalived.handler.SendChildHandler;
+import org.code4j.jeepalived.handler.SendFinChildHandler;
+import org.code4j.jeepalived.handler.timeout.HeartBeatSendHandler;
 
 import java.net.InetSocketAddress;
 
@@ -29,11 +32,11 @@ public class MonitorSend {
     private Bootstrap bootstrap = null;
 
     public MonitorSend() {
-        address = new InetSocketAddress(Init.PRIMARY_HOST,Init.RECEIVE_PORT);
+        address = new InetSocketAddress(Init.PRIMARY_HOST,Init.SEND_TO_PORT);
     }
 
     public void connect() throws Exception{
-        logger.debug("客户端发起链接");
+        logger.debug("jeepalived sender is starting...");
         group = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
         bootstrap.group(group);								//group 组
@@ -46,7 +49,25 @@ public class MonitorSend {
         future.channel().writeAndFlush(Init.PING);
         isAlive = future.channel().isActive()||future.channel().isOpen();
         //等待客户端链路关闭
-        System.out.println("客户端完成了链接");
+        logger.debug("jeepalived sender is started successfully !!");
+    }
+
+    public void fin(){
+        group = new NioEventLoopGroup();
+        bootstrap = new Bootstrap();
+        bootstrap.group(group);								//group 组
+        bootstrap.channel(NioSocketChannel.class);			//channel 通道
+        bootstrap.option(ChannelOption.TCP_NODELAY, true);	//option 选项
+        bootstrap.handler(new SendFinChildHandler());		//handler 处理
+        //发起异步链接
+        try {
+            future = bootstrap.connect(address.getHostName(), address.getPort()).sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//            listen(f.channel());
+        future.channel().writeAndFlush(Init.PING);
+        isAlive = future.channel().isActive()||future.channel().isOpen();
     }
 
     public Channel channel(){

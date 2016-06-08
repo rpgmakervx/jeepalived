@@ -1,7 +1,7 @@
 package org.code4j.jeepalived.run;
 
+import org.code4j.jeepalived.bootstrap.ReceiveBootStrap;
 import org.code4j.jeepalived.bootstrap.SendBootStrap;
-import org.code4j.jeepalived.client.MonitorSend;
 
 /**
  * Description :

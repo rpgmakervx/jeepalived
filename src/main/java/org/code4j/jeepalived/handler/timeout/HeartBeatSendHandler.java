@@ -1,5 +1,6 @@
 package org.code4j.jeepalived.handler.timeout;
 
+import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
@@ -9,6 +10,7 @@ import org.code4j.jeepalived.bash.ShellExecutor;
 import org.code4j.jeepalived.client.MonitorSend;
 import org.code4j.jeepalived.config.Config;
 import org.code4j.jeepalived.config.Init;
+import org.code4j.jeepalived.config.Type;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,6 +29,10 @@ import java.util.TimerTask;
  */
 public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
 
+    //表示发给远程jeepalived的心跳
+    public static final int REAL_SERVER = 1;
+    //表示发给本机server的心跳
+    public static final int JEEPALIVED = 0;
     private Logger logger = Logger.getLogger(HeartBeatSendHandler.class);
     private ShellExecutor executor = new ShellExecutor();
     //未收心跳记录
@@ -36,7 +42,7 @@ public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         String pong = (String) msg;
-        logger.debug(ctx.channel().remoteAddress() + " response : " + pong);
+        logger.debug(ctx.channel().remoteAddress() + " response : " + pong + sdf.format(new Date()));
         clearRecord();
     }
 
@@ -57,9 +63,8 @@ public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
                 }else{
                     logger.debug("读空闲次数太多，可能是接收端死了。启动断线重连");
 //                    ctx.channel().close();
+                    dealDisconnect();
                     //将自己的IP换成接收端的
-                    executor.execute(Init.SET_PRIMARY_IP);
-                    reconnect();
                 }
             }else if (e.state() == IdleState.WRITER_IDLE){
                 logger.debug("发送端发起一次ping");
@@ -72,7 +77,7 @@ public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.error("发送端心跳检测出现异常,可能是接收端死了。启动断线重连 ");
         executor.execute(Init.SET_PRIMARY_IP);
-        reconnect();
+        dealDisconnect();
         cause.printStackTrace();
 //        ctx.close();
     }
@@ -107,5 +112,21 @@ public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
 
     private void clearRecord(){
         unRecPongTimes = 1;
+    }
+
+    public void dealDisconnect(){
+        switch (Init.SEND_TO){
+            //
+            case REAL_SERVER:
+                logger.debug("this is a second server,It will reconnect");
+                executor.execute(Init.SET_PRIMARY_IP);
+                reconnect();
+                break;
+            case JEEPALIVED:
+                logger.debug("this is a local jeepalived,It will fin to it;s recevier");
+                MonitorSend client = new MonitorSend();
+                client.fin();
+                break;
+        }
     }
 }

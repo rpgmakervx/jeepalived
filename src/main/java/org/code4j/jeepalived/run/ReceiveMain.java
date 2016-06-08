@@ -1,6 +1,5 @@
 package org.code4j.jeepalived.run;
 
-import org.apache.log4j.Logger;
 import org.code4j.jeepalived.bootstrap.ReceiveBootStrap;
 
 /**

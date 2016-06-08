@@ -1,6 +1,9 @@
 {
-  "primary_host":"127.0.0.1",
+  "primary_host":"192.168.48.95",
   "receive_port":9524,
+  "send_to_port":9524,
+
+  "send_to":0,
 
   "read_second":5,
   "write_second":4,

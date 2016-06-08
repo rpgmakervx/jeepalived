@@ -13,7 +13,7 @@ import org.code4j.jeepalived.server.MonitorReceive;
 public class ReceiveBootStrap {
     private Logger logger = Logger.getLogger(ReceiveBootStrap.class);
     public void startup(String param){
-        logger.debug("配置文件路径："+param);
+        logger.debug("configuration file path :"+param);
         new Config(param);
         MonitorReceive receive = new MonitorReceive();
         receive.startup();

@@ -35,6 +35,10 @@ public class MonitorSend {
         address = new InetSocketAddress(Init.PRIMARY_HOST,Init.SEND_TO_PORT);
     }
 
+    public MonitorSend(String host,int port) {
+        address = new InetSocketAddress(host,port);
+    }
+
     public void connect() throws Exception{
         logger.debug("jeepalived sender is starting...");
         group = new NioEventLoopGroup();

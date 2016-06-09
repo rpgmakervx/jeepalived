@@ -76,7 +76,6 @@ public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.error("发送端心跳检测出现异常,可能是接收端死了。启动断线重连 ");
-        executor.execute(Init.SET_PRIMARY_IP);
         dealDisconnect();
         cause.printStackTrace();
 //        ctx.close();
@@ -123,8 +122,8 @@ public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
                 reconnect();
                 break;
             case JEEPALIVED:
-                logger.debug("this is a local jeepalived,It will fin to it;s recevier");
-                MonitorSend client = new MonitorSend();
+                logger.debug("this is a local jeepalived,It will fin to it's recevier");
+                MonitorSend client = new MonitorSend(Init.PRIMARY_HOST,Init.RECEIVE_PORT);
                 client.fin();
                 break;
         }

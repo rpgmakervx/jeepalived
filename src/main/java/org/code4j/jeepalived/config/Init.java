@@ -23,7 +23,6 @@ public class Init {
 
     public static final int RECEIVE_PORT = Config.getIntValue(Config.RECEIVE_PORT);
     public static final int SEND_TO_PORT = Config.getIntValue(Config.SEND_TO_PORT);
-    public static final String LOCAL_HOST = Config.getStrValue(Config.LOCAL_HOST);
     public static final String PRIMARY_HOST = Config.getStrValue(Config.PRIMARY_HOST);
 
     public static final String SET_PRIMARY_IP = Config.getStrValue(Config.SET_PRIMARY_IP);

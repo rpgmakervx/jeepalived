@@ -18,7 +18,6 @@ public class Config {
 //    }
 
     public static final String PRIMARY_HOST = "primary_host";
-    public static final String LOCAL_HOST = "local_host";
     public static final String SEND_TO_PORT = "send_to_port";
     public static final String RECEIVE_PORT = "receive_port";
 

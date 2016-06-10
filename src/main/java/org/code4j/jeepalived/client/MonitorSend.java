@@ -29,7 +29,7 @@ public class MonitorSend {
     private Bootstrap bootstrap = null;
 
     public MonitorSend() {
-        address = new InetSocketAddress(Init.PRIMARY_HOST,Init.SEND_TO_PORT);
+        address = new InetSocketAddress(Init.TARGET_HOST,Init.SEND_TO_PORT);
     }
 
     public MonitorSend(String host,int port) {

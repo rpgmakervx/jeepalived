@@ -93,7 +93,7 @@ public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
                     if (client.isAlive()){
                         timer.cancel();
                         logger.debug("重连成功^_^");
-                        executor.execute(Init.SET_ORIGIN_IP);
+                        executor.execute(Init.SET_MASTER_IP);
                     }else{
                         logger.debug("重连失败>_<");
                     }
@@ -114,12 +114,12 @@ public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
             //
             case REAL_SERVER:
                 logger.debug("this is a second server,It will reconnect");
-                executor.execute(Init.SET_PRIMARY_IP);
+                executor.execute(Init.SET_SLAVE_IP);
                 reconnect();
                 break;
             case JEEPALIVED:
                 logger.debug("this is a local jeepalived,It will fin to it's recevier");
-                MonitorSend client = new MonitorSend(Init.PRIMARY_HOST,Init.RECEIVE_PORT);
+                MonitorSend client = new MonitorSend(Init.TARGET_HOST,Init.RECEIVE_PORT);
                 client.fin();
                 executor.execute(Init.SHUTDOWN_NETWORK);
                 logger.error("sudo service network shutdown");

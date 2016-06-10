@@ -1,9 +1,0 @@
-#!/bin/bash
-param=$1
-if [ $param = "run" ];then
-	echo "right"
-elif [ $param = '' ];then
-	echo "no param :"$param
-else
-	echo ">"$param"<"
-fi

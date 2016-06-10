@@ -1,8 +1,8 @@
 package org.code4j.jeepalived.config;
 
-import com.alibaba.fastjson.JSONObject;
-
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Description :
@@ -11,58 +11,51 @@ import java.io.*;
  */
 class Configuration {
 
-    private JSONObject params;
-    private static Configuration configuration;
+    private Properties properties;
 
-//    public static Configuration getConfiguration(String configpath){
-//        synchronized (Configuration.class){
-//            if (configuration == null){
-//                configuration = new Configuration(configpath);
-//            }
-//        }
-//        return configuration;
-//    }
     public Configuration(String configpath){
         InputStream is = null;
-        if (configpath == null||configpath.isEmpty()){
-            configpath = "/config.json";
-            is = Configuration.class.getResourceAsStream(configpath);
-        }else{
-            try {
-                is = new FileInputStream(configpath);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuffer sb = new StringBuffer();
-        String str = "";
+        properties = new Properties();
         try {
-            while ((str = br.readLine()) != null){
-                sb.append(str);
+            if (properties == null||properties.isEmpty()){
+                configpath = "/config.properties";
+                is = Configuration.class.getResourceAsStream(configpath);
+            }else{
+                is = new FileInputStream(configpath);
             }
-        } catch (IOException e) {
+            properties.load(is);
+        } catch (Exception e) {
             e.printStackTrace();
-            try {
-                is.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        String json = sb.toString();
-        params = JSONObject.parseObject(json);
+//        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+//        StringBuffer sb = new StringBuffer();
+//        String str = "";
+//        try {
+//            while ((str = br.readLine()) != null){
+//                sb.append(str);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            try {
+//                is.close();
+//            } catch (IOException e1) {
+//                e1.printStackTrace();
+//            }
+//        }finally {
+//            try {
+//                is.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        String json = sb.toString();
+//        params = JSONObject.parseObject(json);
     }
 
     public Integer getIntValue(String key){
-        return params.getIntValue(key);
+        return Integer.valueOf(properties.getProperty(key));
     }
     public String getStrValue(String key){
-        return params.getString(key);
+        return properties.getProperty(key);
     }
 }

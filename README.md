@@ -10,4 +10,32 @@ or
 		./startup rec   
 to start a receive mode
 ##how to config 
-config file is conf/config.json 
+config file is conf/config.properties
+###send模式指定的主机ip
+target_host=127.0.0.1
+###rec模式 启动的端口号
+receive_port=9524
+###send模式 指定的接收端的端口号
+send_to_port=9500
+###设置send模式下,0发送给远程jeepalived,1发送给本地jeepalived
+send_to=0
+###读心跳等待时间
+read_second=2
+###写心跳等待时间
+write_second=1
+###读写心跳等待时间
+read_write_second=3
+###接收端最大未接收到ping的次数
+max_unrec_ping_times=3
+###发送段最大未接收到pong的次数
+max_unrec_pong_times=3
+###发送端断线重连的时间间隔
+reconnect_second=3
+###设置发送端(从节点)的IP地址
+set_slave_ip=sudo ifconfig eth0 192.168.1.102
+###设置接收端(主节点)的IP地址
+set_master_ip=sudo ifconfig eth0 192.168.1.102
+###关闭网络
+shutdown_network=sudo service network stop
+###启动网络
+startup_network=sudo service network start

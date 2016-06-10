@@ -11,10 +11,10 @@ done
 echo "param "$1
 if [ $1 == "send" ];then
 	main_class="org.code4j.jeepalived.run.SendMain"
-	java -cp $all_jar$main_jar $main_class /home/code4j/util/jeepalived/conf/config.json
+	java -cp $all_jar$main_jar $main_class /home/code4j/util/jeepalived/conf/config.properties
 elif [ $1 == "rec" ];then
 	main_class="org.code4j.jeepalived.run.ReceiveMain"
-	java -cp $all_jar$main_jar $main_class /home/code4j/util/jeepalived/conf/config.json
+	java -cp $all_jar$main_jar $main_class /home/code4j/util/jeepalived/conf/config.properties
 else
 	echo "please enter a correct param (send/rec/'')"
 fi

@@ -6,18 +6,13 @@ package org.code4j.jeepalived.server;/**
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.apache.log4j.Logger;
-import org.code4j.jeepalived.config.Config;
 import org.code4j.jeepalived.config.Init;
 import org.code4j.jeepalived.handler.ReceiveChildHandler;
-
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 
 /**
  * Description : server
@@ -53,7 +48,6 @@ public class MonitorReceive {
     }
 
     public void closeChannel(){
-        future.addListener(ChannelFutureListener.CLOSE);
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
     }

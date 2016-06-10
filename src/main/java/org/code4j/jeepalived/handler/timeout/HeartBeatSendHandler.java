@@ -1,6 +1,5 @@
 package org.code4j.jeepalived.handler.timeout;
 
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
@@ -8,9 +7,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.log4j.Logger;
 import org.code4j.jeepalived.bash.ShellExecutor;
 import org.code4j.jeepalived.client.MonitorSend;
-import org.code4j.jeepalived.config.Config;
 import org.code4j.jeepalived.config.Init;
-import org.code4j.jeepalived.config.Type;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -106,7 +103,6 @@ public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
                 }
             }
         },0, Init.RECONNECT_SECOND*1000);
-
     }
 
     private void clearRecord(){
@@ -125,6 +121,8 @@ public class HeartBeatSendHandler  extends ChannelInboundHandlerAdapter {
                 logger.debug("this is a local jeepalived,It will fin to it's recevier");
                 MonitorSend client = new MonitorSend(Init.PRIMARY_HOST,Init.RECEIVE_PORT);
                 client.fin();
+                executor.execute(Init.SHUTDOWN_NETWORK);
+                logger.error("sudo service network shutdown");
                 break;
         }
     }

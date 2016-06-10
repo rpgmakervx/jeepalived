@@ -37,6 +37,10 @@ public class Config {
 
     public static final String SET_PRIMARY_IP = "set_primary_ip";
     public static final String SET_ORIGIN_IP = "set_origin_ip";
+
+    public static final String SHUTDOWN_NETWORK = "shutdown_network";
+    public static final String STARTUP_NETWORK = "startup_network";
+
     public static Integer getIntValue(String key){
         return configuration.getIntValue(key);
     }

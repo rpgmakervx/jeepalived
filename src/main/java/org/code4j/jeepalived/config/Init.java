@@ -28,8 +28,11 @@ public class Init {
     public static final String SET_PRIMARY_IP = Config.getStrValue(Config.SET_PRIMARY_IP);
     public static final String SET_ORIGIN_IP = Config.getStrValue(Config.SET_ORIGIN_IP);
 
+    public static final String SHUTDOWN_NETWORK = Config.getStrValue(Config.SHUTDOWN_NETWORK);
+    public static final String STARTUP_NETWORK = Config.getStrValue(Config.STARTUP_NETWORK);
 
     public static final String PING = "ping\n";
     public static final String PONG = "pong\n";
+    public static final String DIE = "die\n";
 
 }

@@ -1,5 +1,5 @@
 {
-  "primary_host":"192.168.1.101",
+  "primary_host":"192.168.1.102",
   "receive_port":9524,
   "send_to_port":9524,
 
@@ -16,6 +16,6 @@
   "max_unrec_pong_times":3,
   "reconnect_second":5,
 
-  "set_primary_ip":"sudo ifconfig wlan0 192.168.1.105",
+  "set_primary_ip":"sudo ifconfig wlan0 192.168.1.102",
   "set_origin_ip":"/home/code4j/util/jeepalived/chipaddr.sh /home/code4j/util/jeepalived/ipfile_bak"
 }

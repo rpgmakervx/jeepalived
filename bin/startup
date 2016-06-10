@@ -1,0 +1,20 @@
+#!/bin/sh  
+#============ get the file name ===========  
+service iptables stop
+folder="/home/code4j/util/jeepalived/lib"
+main_jar=":jeepalived.jar"
+all_jar=""  
+for file in ${folder}/*; do  
+    temp_file=`basename $file`  
+    all_jar="${all_jar}:/home/code4j/util/jeepalived/lib/${temp_file}"
+done
+echo "param "$1
+if [ $1 == "send" ];then
+	main_class="org.code4j.jeepalived.run.SendMain"
+	java -cp $all_jar$main_jar $main_class /home/code4j/util/jeepalived/conf/config.json
+elif [ $1 == "rec" ];then
+	main_class="org.code4j.jeepalived.run.ReceiveMain"
+	java -cp $all_jar$main_jar $main_class /home/code4j/util/jeepalived/conf/config.json
+else
+	echo "please enter a correct param (send/rec/'')"
+fi

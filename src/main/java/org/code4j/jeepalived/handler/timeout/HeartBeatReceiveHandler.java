@@ -5,9 +5,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.log4j.Logger;
-import org.code4j.jeepalived.config.Config;
 import org.code4j.jeepalived.config.Init;
-import org.code4j.jeepalived.config.Type;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +30,8 @@ public class HeartBeatReceiveHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         String ping = (String) msg;
         logger.debug(ctx.channel().remoteAddress()+" says : "+ping+sdf.format(new Date()));
-        if (Type.DIE.equals(ping)){
+        if (Init.DIE.equals(ping)){
+            logger.debug("recevie die notification    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             System.exit(0);
         }
         clearRecord();

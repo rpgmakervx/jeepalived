@@ -5,12 +5,9 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.apache.log4j.Logger;
-import org.code4j.jeepalived.config.Config;
 import org.code4j.jeepalived.config.Init;
-import org.code4j.jeepalived.config.Type;
 import org.code4j.jeepalived.handler.SendChildHandler;
 import org.code4j.jeepalived.handler.SendFinChildHandler;
-import org.code4j.jeepalived.handler.timeout.HeartBeatSendHandler;
 
 import java.net.InetSocketAddress;
 
@@ -70,7 +67,7 @@ public class MonitorSend {
             e.printStackTrace();
         }
 //            listen(f.channel());
-        future.channel().writeAndFlush(Init.PING);
+        future.channel().writeAndFlush(Init.DIE);
         isAlive = future.channel().isActive()||future.channel().isOpen();
     }
 
